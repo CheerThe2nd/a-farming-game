@@ -7,10 +7,11 @@ public partial class World : Node3D
     public override void _Ready()
     {
         dirtPatch = GetNode<Node3D>("/root/World/DirtPatch");
-        dirtPatch.Connect("PlantFullyGrown", new Callable(this, MethodName.HandlePlantFullyGrownSignal));
     }
+
     public override void _Process(double delta)
     {
+        // TODO: move this somewhere else
         if (Input.IsActionJustPressed("escape"))
         {
             if (Input.MouseMode == Input.MouseModeEnum.Captured)
@@ -22,13 +23,5 @@ public partial class World : Node3D
                 Input.MouseMode = Input.MouseModeEnum.Captured;
             }
         }
-    }
-
-    private void HandlePlantFullyGrownSignal()
-    {
-        PackedScene npcScene = GD.Load<PackedScene>("res://assets/scenes/npc.tscn");
-        Node3D instantiatedScene = npcScene.Instantiate<Node3D>();
-        // instantiatedScene.Position = new Vector3();
-        AddChild(instantiatedScene);
     }
 }

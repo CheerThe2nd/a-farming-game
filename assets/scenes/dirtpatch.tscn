@@ -1,32 +1,42 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwrhcb2e55dd0"]
+[gd_scene load_steps=7 format=3 uid="uid://bwrhcb2e55dd0"]
 
 [ext_resource type="Script" uid="uid://di5d18pcfrq0a" path="res://scripts/World/Dirtpatch.cs" id="1_q3v31"]
 [ext_resource type="ArrayMesh" uid="uid://cfoly6o2pjd8q" path="res://assets/models/nature/WoodLog_Moss.obj" id="2_q3v31"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ija3"]
+size = Vector3(10, 9.615, 10)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_q3v31"]
+size = Vector3(7.5, 1, 7.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_q3v31"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ija3"]
 albedo_color = Color(1, 1, 1, 0)
 
-[node name="DirtPatch" type="Node3D" node_paths=PackedStringArray("interactLabel", "groundDirtPatch")]
+[node name="DirtPatch" type="Node3D" node_paths=PackedStringArray("groundDirtPatch", "area3D")]
 script = ExtResource("1_q3v31")
-interactLabel = NodePath("")
-groundDirtPatch = NodePath("DirtPatchBody/MeshInstance3D")
+groundDirtPatch = NodePath("DirtPatchBody/CollisionShape3D/MeshInstance3D")
+area3D = NodePath("Area3D")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.127205, 0)
+shape = SubResource("BoxShape3D_8ija3")
 
 [node name="DirtPatchBody" type="StaticBody3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 0.5, 0, 0, 0, 1.5, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DirtPatchBody"]
-transform = Transform3D(5, 0, 0, 0, 0.5, 0, 0, 0, 5, 0, 0, 0)
+transform = Transform3D(0.6666667, 0, 0, 0, 2, 0, 0, 0, 0.6666667, 0, 0, 0)
 shape = SubResource("BoxShape3D_q3v31")
 debug_fill = false
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="DirtPatchBody"]
-transform = Transform3D(5, 0, 0, 0, 0.5, 0, 0, 0, 5, 0, 0, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DirtPatchBody/CollisionShape3D"]
 visible = false
 mesh = SubResource("BoxMesh_q3v31")
+skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_8ija3")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]

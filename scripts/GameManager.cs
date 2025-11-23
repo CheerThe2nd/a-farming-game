@@ -7,7 +7,8 @@ public partial class GameManager : Node
     public enum GameObjective
     {
         GrowFirstPlant,
-        SellFirstPlant
+        SellFirstPlant,
+        BuyFirstPlot
     }
 
     public GameObjective CurrentObjective { get; set; } = GameObjective.GrowFirstPlant;
@@ -31,11 +32,14 @@ public partial class GameManager : Node
         string currentObjectiveText = "Current Objective: ";
         switch (currentGameObjective)
         {
-            case GameManager.GameObjective.GrowFirstPlant:
+            case GameObjective.GrowFirstPlant:
                 currentObjectiveText += "Grow your first cactus!";
                 break;
-            case GameManager.GameObjective.SellFirstPlant:
+            case GameObjective.SellFirstPlant:
                 currentObjectiveText += "Sell your first cactus!";
+                break;
+            case GameObjective.BuyFirstPlot:
+                currentObjectiveText += "Buy your first plot";
                 break;
         }
         return currentObjectiveText;

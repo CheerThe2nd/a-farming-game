@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://6ye6v48133nk"]
+[gd_scene load_steps=15 format=3 uid="uid://6ye6v48133nk"]
 
 [ext_resource type="Script" uid="uid://dwh4te3qryprb" path="res://scripts/Player/Player.cs" id="1_gagv8"]
 [ext_resource type="Script" uid="uid://dial8v0hrborf" path="res://scripts/World/World.cs" id="1_u44wh"]
@@ -7,13 +7,17 @@
 [ext_resource type="PackedScene" uid="uid://bwrhcb2e55dd0" path="res://assets/scenes/dirtpatch.tscn" id="5_eqalh"]
 [ext_resource type="Script" uid="uid://ba25aw8p04s6h" path="res://scripts/UiManager.cs" id="6_vo808"]
 [ext_resource type="Texture2D" uid="uid://bnyluoesw5f0f" path="res://assets/hud/coin.png" id="7_4v045"]
+[ext_resource type="PackedScene" uid="uid://c23501e3bb6dg" path="res://assets/scenes/shop.tscn" id="8_0ft0v"]
+[ext_resource type="Script" uid="uid://cpk3qgfiedqsh" path="res://scripts/World/Shop.cs" id="9_702vk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0f027"]
 radius = 0.7
+height = 3.6
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0f027"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_d5x1h"]
+size = Vector3(50, 1, 50)
 
 [sub_resource type="BoxMesh" id="BoxMesh_8mm7a"]
 
@@ -31,7 +35,6 @@ axis_lock_angular_z = true
 script = ExtResource("1_gagv8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1.595, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_0f027")
 
 [node name="PlayerCamera" type="Camera3D" parent="Player"]
@@ -45,11 +48,10 @@ skeleton = NodePath("")
 [node name="Ground" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
 shape = SubResource("BoxShape3D_d5x1h")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
+transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, -0.03878975, 0.036037445, -0.0064888)
 mesh = SubResource("BoxMesh_8mm7a")
 surface_material_override/0 = SubResource("StandardMaterial3D_vo808")
 
@@ -100,7 +102,11 @@ offset_left = 516.0
 offset_top = 542.0
 offset_right = 666.0
 offset_bottom = 565.0
-text = "Press (F) to interact"
+text = "Press (F) to water this dirt patch"
+
+[node name="Shop" parent="." instance=ExtResource("8_0ft0v")]
+transform = Transform3D(3.491015, 0, 3.5794997, 0, 5.0000005, 0, -3.5794997, 0, 3.491015, 18.534254, 0.648015, -18.451683)
+script = ExtResource("9_702vk")
 
 [connection signal="PlantFullyGrown" from="DirtPatch" to="UiRoot" method="HandleGameObjectiveChangedSignal"]
 [connection signal="PlayerInRange" from="DirtPatch" to="UiRoot" method="UpdateInteractLabelVisible"]

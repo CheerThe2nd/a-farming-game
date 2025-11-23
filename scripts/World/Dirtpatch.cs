@@ -20,35 +20,46 @@ public partial class Dirtpatch : Node3D
     [Export]
     MeshInstance3D groundDirtPatch;
 
-    DirtPatchState currentDirtPatchState = DirtPatchState.Dry;
-    CharacterBody3D player;
+    [Export]
+    Area3D area3D;
 
-    MeshInstance3D cactus;
+    DirtPatchState dirtPatchState = DirtPatchState.Dry;
+
+    MeshInstance3D cactusModel;
+
+    bool playerInRange;
 
     public override void _Ready()
     {
-        // TODO: eventually this should go
-        player = (CharacterBody3D)GetNode("/root/World/Player");
+        area3D.BodyEntered += OnBodyEntered;
+        area3D.BodyExited += OnBodyExit;
+    }
+
+    private void OnBodyEntered(Node3D body)
+    {
+        GD.Print("player has entered dirtpatch range!");
+        playerInRange = true;
+        UiManager.Instance.InteractLabel.Visible = true;
+        UiManager.Instance.InteractLabel.Text = GetTextForInteractLabel(dirtPatchState);
+    }
+
+    private void OnBodyExit(Node3D body)
+    {
+        GD.Print("player has exited dirtpatch range!");
+        playerInRange = false;
+        UiManager.Instance.InteractLabel.Visible = false;
     }
 
     public override void _Process(double delta)
     {
-        Vector3 positionOfPlayer = player.Position;
-
-        Vector3 positionOfDirtPatch = Position;
-        float distanceToPlayer = Position.DistanceTo(positionOfPlayer);
-
-        bool playerIsInRange = distanceToPlayer < 10f;
-        UiManager.Instance.InteractLabel.Visible = playerIsInRange;
-
-        if (!playerIsInRange) return;
+        if (!playerInRange) return;
 
         if (Input.IsActionJustPressed("interact"))
         {
-            switch (currentDirtPatchState)
+            switch (dirtPatchState)
             {
                 case DirtPatchState.Dry:
-                    currentDirtPatchState = DirtPatchState.Watered;
+                    dirtPatchState = DirtPatchState.Watered;
                     UiManager.Instance.InteractLabel.Text = "Press (F) to make it YoungCactus";
 
                     StandardMaterial3D newMaterial = new StandardMaterial3D();
@@ -58,27 +69,27 @@ public partial class Dirtpatch : Node3D
                     groundDirtPatch.SetSurfaceOverrideMaterial(0, newMaterial);
                     break;
                 case DirtPatchState.Watered:
-                    currentDirtPatchState = DirtPatchState.YoungCactus;
-                    if (cactus == null)
+                    dirtPatchState = DirtPatchState.YoungCactus;
+                    if (cactusModel == null)
                     {
                         PackedScene scene = GD.Load<PackedScene>("res://assets/scenes/cactus.tscn");
                         MeshInstance3D instance = scene.Instantiate<MeshInstance3D>();
                         instance.Position = new Vector3(0.0f, 0.5f, 0.0f);
                         AddChild(instance);
-                        cactus = instance;
+                        cactusModel = instance;
                     }
                     UiManager.Instance.InteractLabel.Text = "Press (F) to make it AgedCactus";
                     break;
                 case DirtPatchState.YoungCactus:
-                    currentDirtPatchState = DirtPatchState.AgedCactus;
-                    string cactusModelPath = GetPathForCactus(currentDirtPatchState);
-                    cactus.Mesh = (Mesh)GD.Load(cactusModelPath);
+                    dirtPatchState = DirtPatchState.AgedCactus;
+                    string cactusModelPath = GetPathForCactus(dirtPatchState);
+                    cactusModel.Mesh = (Mesh)GD.Load(cactusModelPath);
                     UiManager.Instance.InteractLabel.Text = "Press (F) to make it Cactus Flower";
                     break;
                 case DirtPatchState.AgedCactus:
-                    currentDirtPatchState = DirtPatchState.CactusWithFlowers;
-                    cactusModelPath = GetPathForCactus(currentDirtPatchState);
-                    cactus.Mesh = GD.Load<Mesh>(cactusModelPath);
+                    dirtPatchState = DirtPatchState.CactusWithFlowers;
+                    cactusModelPath = GetPathForCactus(dirtPatchState);
+                    cactusModel.Mesh = GD.Load<Mesh>(cactusModelPath);
                     UiManager.Instance.InteractLabel.Text = "Congrats on your first grown cactus! Now sell it to the NPC";
                     EmitSignal(SignalName.PlantFullyGrown);
                     GameManager.Instance.UpdateObjective(GameManager.GameObjective.SellFirstPlant);
@@ -102,5 +113,17 @@ public partial class Dirtpatch : Node3D
         }
     }
 
+    private string GetTextForInteractLabel(DirtPatchState dirtPatchState)
+    {
+        switch (dirtPatchState)
+        {
+            case DirtPatchState.Dry: return "Press (F) to water this dirt patch";
+            case DirtPatchState.Watered: return "Press (F) to make it YoungCactus";
+            case DirtPatchState.YoungCactus: return "Press (F) to make it AgedCactus";
+            case DirtPatchState.AgedCactus: return "Press (F) to make it CactusFlowers";
+            case DirtPatchState.CactusWithFlowers: return "Congrats on your first grown cactus! Now sell it to the NPC";
+        }
+        return "";
+    }
 
 }

@@ -2,9 +2,6 @@ using Godot;
 
 public partial class UiManager : Control
 {
-    [Signal]
-    public delegate void UpdateInteractLabelEventHandler(string newText);
-
     public static UiManager Instance;
 
     GameManager ObjectiveManager;
