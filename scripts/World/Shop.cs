@@ -45,7 +45,19 @@ public partial class Shop : Node3D
     private void HandleInteractionWithShop()
     {
         if (!(playerInRange && Input.IsActionJustPressed("interact"))) return;
-        GD.Print("Player has interacted with shop");
-        GameManager.Instance.AddCoin(GameConstants.CactusPrize);
+        switch (GameManager.Instance.CurrentObjective)
+        {
+            case GameManager.GameObjective.SellFirstPlant:
+                GD.Print("Player has sold cactus");
+                GameManager.Instance.AddCoin(GameConstants.CactusPrize);
+                GameManager.Instance.CurrentObjective = GameManager.GameObjective.BuyFirstPlot;
+                break;
+            case GameManager.GameObjective.BuyFirstPlot:
+                if (GameManager.Instance.CoinCount < GameConstants.PlotPrize)
+                {
+                    GD.Print("player doesnt have enough money to buy their first plot!");
+                }
+                break;
+        }
     }
 }

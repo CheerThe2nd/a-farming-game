@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://6ye6v48133nk"]
+[gd_scene load_steps=28 format=3 uid="uid://6ye6v48133nk"]
 
 [ext_resource type="Script" uid="uid://dwh4te3qryprb" path="res://scripts/Player/Player.cs" id="1_gagv8"]
 [ext_resource type="Script" uid="uid://dial8v0hrborf" path="res://scripts/World/World.cs" id="1_u44wh"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://pnx00aa14e7x" path="res://assets/models/nature/glTF/Fern_1.gltf" id="8_as00q"]
 [ext_resource type="PackedScene" uid="uid://183eqjcxbgdg" path="res://assets/models/nature/glTF/Grass_Common_Short.gltf" id="9_5meus"]
 [ext_resource type="PackedScene" uid="uid://ivxlwm71e3yu" path="res://assets/models/nature/glTF/Grass_Common_Tall.gltf" id="10_6xq62"]
+[ext_resource type="Texture2D" uid="uid://bdpur6v01bt6l" path="res://assets/hud/hotbar.png" id="14_wtluq"]
 [ext_resource type="PackedScene" uid="uid://dwejps1lt6ar4" path="res://assets/models/nature/glTF/Pebble_Round_1.gltf" id="16_ajood"]
 [ext_resource type="PackedScene" uid="uid://b2pmcob273n8a" path="res://assets/models/nature/glTF/Pine_1.gltf" id="17_qeaqt"]
 [ext_resource type="PackedScene" uid="uid://dqcn4q36x1gql" path="res://assets/models/nature/glTF/Pine_2.gltf" id="18_jxdsk"]
@@ -88,7 +89,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.221718, 0.53136224, 20.02
 [node name="SunLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.216941, -0.928851, -0.300286, 0.876541, 0.0499567, 0.478728, -0.429666, -0.367069, 0.825014, 0, 17.8696, 0)
 
-[node name="DirtPatch" parent="." instance=ExtResource("5_eqalh")]
+[node name="GrowPlot" parent="." instance=ExtResource("5_eqalh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5253, 0.391059, 9.91312)
 
 [node name="UiRoot" type="Control" parent="." node_paths=PackedStringArray("CurrentObjectiveLabel", "InteractLabel", "CoinsLabel")]
@@ -134,6 +135,14 @@ offset_right = 666.0
 offset_bottom = 565.0
 text = "Press (F) to water this dirt patch"
 
+[node name="TextureRect" type="TextureRect" parent="UiRoot"]
+layout_mode = 0
+offset_left = 443.0
+offset_top = 578.0
+offset_right = 700.0
+offset_bottom = 618.0
+texture = ExtResource("14_wtluq")
+
 [node name="Shop" parent="." instance=ExtResource("8_0ft0v")]
 transform = Transform3D(3.491015, 0, 3.5794997, 0, 5.0000005, 0, -3.5794997, 0, 3.491015, 18.534254, 0.648015, -18.451683)
 
@@ -166,6 +175,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.129538, 0.535024, 23.2975
 
 [node name="Pine_43" parent="." instance=ExtResource("20_hf8so")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.807499, 0.7350886, -2.577526)
-
-[connection signal="PlantFullyGrown" from="DirtPatch" to="UiRoot" method="HandleGameObjectiveChangedSignal"]
-[connection signal="PlayerInRange" from="DirtPatch" to="UiRoot" method="UpdateInteractLabelVisible"]
