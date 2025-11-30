@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 // this script mainly handles spawning trees at the edge of our map.
@@ -11,38 +12,105 @@ public partial class Terrain : Node3D {
     [Export]
     MultiMeshInstance3D treeMeshes;
 
-    const int centerThreshold = 25;
-    const int instanceCount = 150;
+    const int instanceCount = 350;
+    const float Offset = 10f;
+    const float HalfOfOffset = Offset / 2;
 
     public override void _Ready() {
+        SpawnRandomTreesAtEdgesOfMap();
+    }
+
+    private void SpawnRandomTreesAtEdgesOfMap() {
         treeMeshes.Multimesh.InstanceCount = instanceCount;
         treeMeshes.Multimesh.Mesh = GD.Load<Mesh>("res://assets/models/nature/pine_tree_mesh.tres");
 
-        Aabb boundingBox = terrainMesh.GetAabb();
-        // our max radius, e.g. edge of terrain
-        float maxRadius = boundingBox.Size.X;
-        float minRadius = maxRadius - 2;
+        Random randomInstance = new Random();
 
-        for (int i = 0; i < instanceCount; i++) {
-            Vector3 randomEdgePoint = RandomEdgePoint(minRadius, maxRadius);
+        Aabb boundingBox = terrainMesh.GetAabb();
+
+        // we decrease the size, because it shouldnt be at the very edge but a bit before
+        float boundingBoxSizeX = boundingBox.Size.X - 20f;
+        float boundingBoxSizeZ = boundingBox.Size.Z - 20f;
+
+        float globalMinX = -(boundingBoxSizeX / 2f);
+        float globalMaxX = (boundingBoxSizeX / 2f);
+
+        float globalMinZ = -(boundingBoxSizeZ / 2f);
+        float globalMaxZ = (boundingBoxSizeZ / 2f);
+
+        float lowerMinX = globalMinX - HalfOfOffset;
+        float upperMinX = globalMinX + HalfOfOffset;
+
+        float lowerMaxX = globalMaxX - HalfOfOffset;
+        float upperMaxX = globalMaxX + HalfOfOffset;
+
+        float lowerMinZ = globalMinZ - HalfOfOffset;
+        float upperMinZ = globalMinZ + HalfOfOffset;
+
+        float lowerMaxZ = globalMaxZ - HalfOfOffset;
+        float upperMaxZ = globalMaxZ + HalfOfOffset;
+
+        int currentMeshInstanceIndex = 0;
+
+        // 1. X: between global
+        //    Z: 0, but has to be like - 5 and + 5 to have slight derivation
+        for (int i = 0; i < instanceCount / 4; i++) {
+            float randomX = MathUtils.GetRandomFloatRange(randomInstance, globalMinX, globalMaxX);
+            float randomZ = MathUtils.GetRandomFloatRange(randomInstance, lowerMinZ, upperMinZ);
+
+            Vector3 randomEdgePoint = new Vector3((float)randomX, 5f, (float)randomZ);
             Vector3? snappedEdgePoint = SnapToTerrain(randomEdgePoint);
             if (snappedEdgePoint != null) {
                 Transform3D transform = Transform3D.Identity;
                 transform.Origin = (Vector3)snappedEdgePoint;
-                transform.Origin.Y += 3f;
-                treeMeshes.Multimesh.SetInstanceTransform(0, transform);
+                treeMeshes.Multimesh.SetInstanceTransform(currentMeshInstanceIndex, transform);
             }
+            currentMeshInstanceIndex++;
         }
-    }
 
-    public static Vector3 RandomEdgePoint(float minRadius, float maxRadius) {
-        float angle = GD.Randf() * Mathf.Tau;
-        float radius = Mathf.Lerp(minRadius, maxRadius, GD.Randf());
-        return new Vector3(
-            Mathf.Cos(angle) * radius,
-            100.0f, // We set Y to 100 to be able to raycast down later to get a valid spawn point for our trees
-            Mathf.Sin(angle)
-        );
+        // X: between globalMinX and globalMaxX
+        // Z: maxZ, but with -HalfOfOffset and +HalfOfOffset
+        for (int i = 0; i < instanceCount / 4; i++) {
+            float randomX = MathUtils.GetRandomFloatRange(randomInstance, globalMinX, globalMaxX);
+            double randomZ = MathUtils.GetRandomFloatRange(randomInstance, lowerMaxZ, upperMaxZ);
+
+            Vector3 randomEdgePoint = new Vector3((float)randomX, 5f, (float)randomZ);
+            Vector3? snappedEdgePoint = SnapToTerrain(randomEdgePoint);
+            if (snappedEdgePoint != null) {
+                Transform3D transform = Transform3D.Identity;
+                transform.Origin = (Vector3)snappedEdgePoint;
+                treeMeshes.Multimesh.SetInstanceTransform(currentMeshInstanceIndex, transform);
+            }
+            currentMeshInstanceIndex++;
+        }
+
+        for (int i = 0; i < instanceCount / 4; i++) {
+            float randomX = MathUtils.GetRandomFloatRange(randomInstance, lowerMinX, upperMinX);
+            double randomZ = MathUtils.GetRandomFloatRange(randomInstance, globalMinZ, globalMaxZ);
+
+            Vector3 randomEdgePoint = new Vector3((float)randomX, 5f, (float)randomZ);
+            Vector3? snappedEdgePoint = SnapToTerrain(randomEdgePoint);
+            if (snappedEdgePoint != null) {
+                Transform3D transform = Transform3D.Identity;
+                transform.Origin = (Vector3)snappedEdgePoint;
+                treeMeshes.Multimesh.SetInstanceTransform(currentMeshInstanceIndex, transform);
+            }
+            currentMeshInstanceIndex++;
+        }
+
+        for (int i = 0; i < instanceCount / 4; i++) {
+            float randomX = MathUtils.GetRandomFloatRange(randomInstance, lowerMaxX, upperMaxX);
+            double randomZ = MathUtils.GetRandomFloatRange(randomInstance, globalMinZ, globalMaxZ);
+
+            Vector3 randomEdgePoint = new Vector3((float)randomX, 5f, (float)randomZ);
+            Vector3? snappedEdgePoint = SnapToTerrain(randomEdgePoint);
+            if (snappedEdgePoint != null) {
+                Transform3D transform = Transform3D.Identity;
+                transform.Origin = (Vector3)snappedEdgePoint;
+                treeMeshes.Multimesh.SetInstanceTransform(currentMeshInstanceIndex, transform);
+            }
+            currentMeshInstanceIndex++;
+        }
     }
 
     public Vector3? SnapToTerrain(Vector3 position) {

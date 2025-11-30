@@ -28,5 +28,4 @@ shape = SubResource("ConcavePolygonShape3D_vj50p")
 multimesh = SubResource("MultiMesh_cgava")
 
 [node name="PineTreeMesh" type="MeshInstance3D" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3666179, 0.3928877, -18.149841)
 mesh = ExtResource("2_cgava")
