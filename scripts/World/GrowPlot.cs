@@ -164,6 +164,7 @@ public partial class GrowPlot : Node3D {
         }
         PackedScene scene = GD.Load<PackedScene>(pathToNewGlbModel);
         Node3D node = scene.Instantiate<Node3D>();
+        plantModel = node;
         AddChild(node);
     }
 }
