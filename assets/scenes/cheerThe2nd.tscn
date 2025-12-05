@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://37csfwauf5os"]
+
+[ext_resource type="Script" uid="uid://b2kclsvvgtw23" path="res://src/world/TerrainGen.cs" id="1_8cwac"]
+[ext_resource type="PackedScene" uid="uid://ck3gn5l4wlsnt" path="res://assets/scenes/player.tscn" id="2_6imm1"]
+
+[node name="CheerThe2Nd" type="Node2D"]
+
+[node name="TerrainMesh" type="MeshInstance3D" parent="."]
+script = ExtResource("1_8cwac")
+
+[node name="Player" parent="." instance=ExtResource("2_6imm1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7775661, 2.841052, 1.0306497)

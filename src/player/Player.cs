@@ -23,14 +23,14 @@ public partial class Player : CharacterBody3D {
 
     // --- Movement related ---
     private PlayerMovement _playerMovement;
+    private bool _enableDebugMovement = false;
+    private float _debugMovementSpeed = 30.0f;
 
-    public static Player Instance { get; private set; }
 
     public const int HotbarSize = 8;
+    public static Player Instance { get; private set; }
     private Array<GameItem> _hotbar = [];
-
     public float CoinCount { get; private set; } = 0f;
-
     public int CurrentHotbarSlotSelected = 0;
 
     public override void _Ready() {
@@ -45,8 +45,10 @@ public partial class Player : CharacterBody3D {
     }
 
     public override void _PhysicsProcess(double delta) {
-        _playerMovement.HandleMovement(IsOnFloor(), (float)delta);
-        Velocity = _playerMovement.finalVelocity;
+        if (!_enableDebugMovement) {
+            _playerMovement.HandleMovement(IsOnFloor(), (float)delta);
+            Velocity = _playerMovement.finalVelocity;
+        }
         MoveAndSlide();
 
         // Check for change
@@ -83,6 +85,24 @@ public partial class Player : CharacterBody3D {
         }
         else if (Input.IsActionJustPressed("hotbar_8")) {
             UpdateCurrentHotbarSlotSelected(7);
+        }
+
+        // Checks for state change
+        // Is only for debugging
+        HandleFreeRoam();
+        if (_enableDebugMovement) {
+            Vector3 mvDir = new Vector3(0.0f, 0.0f, 0.0f);
+            if (Input.IsActionPressed("move_left")) mvDir.X = -1.0f;
+            else if (Input.IsActionPressed("move_right")) mvDir.X = 1.0f;
+            else mvDir.X = 0.0f;
+
+            if (Input.IsActionPressed("move_forward")) mvDir.Z = -1.0f;
+            else if (Input.IsActionPressed("move_backwards")) mvDir.Z = 1.0f;
+            else mvDir.Z = 0.0f;
+
+            mvDir = mvDir.Normalized();
+            mvDir = _playerCamera.Basis.X * mvDir.X + _playerCamera.Basis.Y * mvDir.Y + _playerCamera.Basis.Z * mvDir.Z;
+            Velocity = mvDir * _debugMovementSpeed;
         }
 
         // --- Read input from player ---
@@ -237,5 +257,11 @@ public partial class Player : CharacterBody3D {
         if (result.Count > 0)
             return (Vector3)result["position"];
         return null;
+    }
+
+    private void HandleFreeRoam() {
+        if (Input.IsActionJustPressed("toggle_freecam")) {
+            _enableDebugMovement = !_enableDebugMovement;
+        }
     }
 }
