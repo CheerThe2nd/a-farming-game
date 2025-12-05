@@ -1,12 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://37csfwauf5os"]
+[gd_scene load_steps=10 format=3 uid="uid://37csfwauf5os"]
 
+[ext_resource type="Script" uid="uid://dial8v0hrborf" path="res://src/world/World.cs" id="1_3j7xa"]
 [ext_resource type="Script" uid="uid://b2kclsvvgtw23" path="res://src/world/TerrainGen.cs" id="1_8cwac"]
 [ext_resource type="PackedScene" uid="uid://ck3gn5l4wlsnt" path="res://assets/scenes/player.tscn" id="2_6imm1"]
+[ext_resource type="Texture2D" uid="uid://e78h0o3qk0yr" path="res://assets/textures/skybox/Sky_LowPoly_01_Day_a.png" id="4_ebvkb"]
 
-[node name="CheerThe2Nd" type="Node2D"]
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_xo84j"]
+panorama = ExtResource("4_ebvkb")
 
-[node name="TerrainMesh" type="MeshInstance3D" parent="."]
-script = ExtResource("1_8cwac")
+[sub_resource type="Sky" id="Sky_i5e3e"]
+sky_material = SubResource("PanoramaSkyMaterial_xo84j")
+
+[sub_resource type="Environment" id="Environment_r0rxj"]
+background_mode = 2
+sky = SubResource("Sky_i5e3e")
+ssao_enabled = true
+ssao_intensity = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3j7xa"]
+shading_mode = 2
+albedo_color = Color(1, 0, 0.8666668, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3j7xa"]
+
+[node name="CheerThe2Nd" type="Node3D"]
+script = ExtResource("1_3j7xa")
 
 [node name="Player" parent="." instance=ExtResource("2_6imm1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7775661, 2.841052, 1.0306497)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.90630776, -0.29883623, 0.29883623, 0, 0.70710677, 0.70710677, -0.42261827, -0.6408563, 0.6408563, 0, 10.4286175, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_r0rxj")
+
+[node name="TerrainGen" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_3j7xa")
+script = ExtResource("1_8cwac")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(3.545, 0, 0, 0, 3.545, 0, 0, 0, 3.545, 0, 7.7585683, 0)
+mesh = SubResource("BoxMesh_3j7xa")
