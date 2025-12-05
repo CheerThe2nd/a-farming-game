@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdpur6v01bt6l"
-path="res://.godot/imported/hotbar.png-1b898761741417bd3c7439629f4ffe1d.ctex"
+uid="uid://c4oq56ipi2edq"
+path="res://.godot/imported/cactus.png-14bdd115779b1792cb1e3e99aa4cf7b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hud/hotbar.png"
-dest_files=["res://.godot/imported/hotbar.png-1b898761741417bd3c7439629f4ffe1d.ctex"]
+source_file="res://assets/preview/cactus.png"
+dest_files=["res://.godot/imported/cactus.png-14bdd115779b1792cb1e3e99aa4cf7b2.ctex"]
 
 [params]
 

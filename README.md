@@ -16,17 +16,14 @@
   - If version below, setup LSP server `csharp_ls` like other LSP servers in your config
   - Regardless of version, install the lsp server as documented [here](https://github.com/razzmatazz/csharp-language-server?tab=readme-ov-file#quick-start)
 
-## Scope
+## Roadmap
 
-We don't want to overscope at first, so:
-
-- player movement with camera mouse
-- a small island
-- few dirtpatches where you can put crops to
-- they grow over time
-- when they are done growing, a npc arrives and wants to buy the plant
-- you have to sell it to him and you get coins
-- be able to buy new plots for plants and have different types of plants
+- [ ] Milestone 1
+    - Player Movement
+    - A small island
+    - Grow plants
+    - Buy/Sell plants
+    - Buy new grow plots and be able to place them somewhere on your island
 
 ## Assets
 

@@ -27,5 +27,17 @@ public partial class UiManager : Control {
         for (int i = 0; i < Player.Player.InventorySize; i++) {
             InventorySlotTextures.Add(GetNode<TextureRect>($"/root/World/CanvasLayer/UiRoot/HotbarInventory/InventorySlot{i + 1}"));
         }
+        foreach (TextureRect inventorySlot in InventorySlotTextures) {
+            inventorySlot.Texture = GD.Load<Texture2D>("res://assets/hud/default-hotbar-slot.png");
+        }
+        InventorySlotTextures[0].Texture = GD.Load<Texture2D>("res://assets/hud/selected-hotbar-slot.png");
+    }
+
+    public void UpdateSelectedInventorySlot(int index) {
+        // update all inventory slot textures to default
+        foreach (TextureRect inventorySlot in InventorySlotTextures) {
+            inventorySlot.Texture = GD.Load<Texture2D>("res://assets/hud/default-hotbar-slot.png");
+        }
+        InventorySlotTextures[index].Texture = GD.Load<Texture2D>("res://assets/hud/selected-hotbar-slot.png");
     }
 }

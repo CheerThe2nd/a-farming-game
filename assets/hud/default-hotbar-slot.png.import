@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d88dwcp04lkr"
-path="res://.godot/imported/grown_cactus.png-15de381a5cafd4cf531dd0d992637e3c.ctex"
+uid="uid://bcope34mgdcko"
+path="res://.godot/imported/default-hotbar-slot.png-4d1577f721101d67a44b555ff8ed251f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/models/nature/cactus/grown_cactus.png"
-dest_files=["res://.godot/imported/grown_cactus.png-15de381a5cafd4cf531dd0d992637e3c.ctex"]
+source_file="res://assets/hud/default-hotbar-slot.png"
+dest_files=["res://.godot/imported/default-hotbar-slot.png-4d1577f721101d67a44b555ff8ed251f.ctex"]
 
 [params]
 

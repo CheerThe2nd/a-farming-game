@@ -40,7 +40,7 @@ public partial class PlantItem : GameItem {
         BuyPrice = GameConstants.CactusBuyPrize,
         ItemName = "Cactus",
         Description = "This cactus thrives on sunlight and pure attitude. Just don't poke it unless you enjoy regret.",
-        PathToTexture = "res://assets/models/nature/cactus/grown_cactus.png",
+        PathToTexture = "res://assets/preview/cactus.png",
         SellPrice = GameConstants.CactusSellPrize,
         IsPlaceHolder = false
     };

@@ -15,10 +15,11 @@ public partial class Player : CharacterBody3D {
 
     public float CoinCount { get; private set; } = 0f;
 
-
     public const int InventorySize = 8;
     // maybe have a better data structure, we want fixed size of InventorySize. for now we just ensure this at developer side that it wont be bigger than this
     private Array<GameItem> _inventory = [];
+
+    public int CurrentInventorySlotSelected = 0;
 
     public override void _Ready() {
         Instance = this;
@@ -26,6 +27,44 @@ public partial class Player : CharacterBody3D {
         for (int i = 0; i < InventorySize; i++) {
             _inventory.Add(new GameItem { IsPlaceHolder = true });
         }
+    }
+
+    public override void _PhysicsProcess(double delta) {
+        ApplyGravity(delta);
+        HandleMovementInput();
+        MoveAndSlide();
+    }
+
+    public override void _Process(double delta) {
+        if (Input.IsActionJustPressed("hotbar_1")) {
+            UpdateCurrentInventorySlotSelected(0);
+        }
+        else if (Input.IsActionJustPressed("hotbar_2")) {
+            UpdateCurrentInventorySlotSelected(1);
+        }
+        else if (Input.IsActionJustPressed("hotbar_3")) {
+            UpdateCurrentInventorySlotSelected(2);
+        }
+        else if (Input.IsActionJustPressed("hotbar_4")) {
+            UpdateCurrentInventorySlotSelected(3);
+        }
+        else if (Input.IsActionJustPressed("hotbar_5")) {
+            UpdateCurrentInventorySlotSelected(4);
+        }
+        else if (Input.IsActionJustPressed("hotbar_6")) {
+            UpdateCurrentInventorySlotSelected(5);
+        }
+        else if (Input.IsActionJustPressed("hotbar_7")) {
+            UpdateCurrentInventorySlotSelected(6);
+        }
+        else if (Input.IsActionJustPressed("hotbar_8")) {
+            UpdateCurrentInventorySlotSelected(7);
+        }
+    }
+
+    private void UpdateCurrentInventorySlotSelected(int newInventorySlotSelected) {
+        CurrentInventorySlotSelected = newInventorySlotSelected;
+        UiManager.Instance.UpdateSelectedInventorySlot(newInventorySlotSelected);
     }
 
     private void HandleMovementInput() {
@@ -55,12 +94,6 @@ public partial class Player : CharacterBody3D {
         if (IsOnFloor() && Input.IsActionJustPressed("jump")) {
             Velocity = new Vector3(Velocity.X, _jumpVelocity, Velocity.Z);
         }
-    }
-
-    public override void _PhysicsProcess(double delta) {
-        ApplyGravity(delta);
-        HandleMovementInput();
-        MoveAndSlide();
     }
 
     private void ApplyGravity(double delta) {

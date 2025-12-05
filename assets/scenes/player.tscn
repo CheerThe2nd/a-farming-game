@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://ck3gn5l4wlsnt"]
+
+[ext_resource type="Script" uid="uid://cuf1sqekmv2h3" path="res://src/player/Player.cs" id="1_s027a"]
+[ext_resource type="Script" uid="uid://4vrom1kigyy2" path="res://src/player/PlayerCamera.cs" id="2_14505"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0f027"]
+radius = 0.7
+height = 3.6
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0f027"]
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+axis_lock_angular_z = true
+script = ExtResource("1_s027a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_0f027")
+
+[node name="PlayerCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.632436, 0)
+current = true
+script = ExtResource("2_14505")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_0f027")
+skeleton = NodePath("")

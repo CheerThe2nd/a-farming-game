@@ -1,0 +1,120 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxtk8d22pmu6w"]
+
+[ext_resource type="Script" uid="uid://ctmekexns2p6e" path="res://src/UiManager.cs" id="1_ybygq"]
+[ext_resource type="Texture2D" uid="uid://bnyluoesw5f0f" path="res://assets/hud/coin.png" id="2_mqj78"]
+[ext_resource type="Texture2D" uid="uid://bcope34mgdcko" path="res://assets/hud/default-hotbar-slot.png" id="3_252mf"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="UiRoot" type="Control" parent="." node_paths=PackedStringArray("CurrentObjectiveLabel", "InteractLabel", "CoinsLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ybygq")
+CurrentObjectiveLabel = NodePath("MarginContainer/VBoxContainer/CurrentObjectiveLabel")
+InteractLabel = NodePath("InteractLabel")
+CoinsLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/CoinsLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="UiRoot"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UiRoot/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UiRoot/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UiRoot/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_mqj78")
+stretch_mode = 3
+
+[node name="CoinsLabel" type="Label" parent="UiRoot/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="CurrentObjectiveLabel" type="Label" parent="UiRoot/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Current Objective: "
+
+[node name="HotbarInventory" type="HBoxContainer" parent="UiRoot"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -73.0
+offset_right = 73.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="InventorySlot1" type="TextureRect" parent="UiRoot/HotbarInventory"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_252mf")
+expand_mode = 1
+
+[node name="InventorySlot2" type="TextureRect" parent="UiRoot/HotbarInventory"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_252mf")
+expand_mode = 1
+
+[node name="InventorySlot3" type="TextureRect" parent="UiRoot/HotbarInventory"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_252mf")
+expand_mode = 1
+
+[node name="InventorySlot4" type="TextureRect" parent="UiRoot/HotbarInventory"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_252mf")
+expand_mode = 1
+
+[node name="InventorySlot5" type="TextureRect" parent="UiRoot/HotbarInventory"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_252mf")
+expand_mode = 1
+
+[node name="InventorySlot6" type="TextureRect" parent="UiRoot/HotbarInventory"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_252mf")
+expand_mode = 1
+
+[node name="InventorySlot7" type="TextureRect" parent="UiRoot/HotbarInventory"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_252mf")
+expand_mode = 1
+
+[node name="InventorySlot8" type="TextureRect" parent="UiRoot/HotbarInventory"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_252mf")
+expand_mode = 1
+
+[node name="InteractLabel" type="Label" parent="UiRoot"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_top = -23.0
+offset_right = 0.5
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 0
